@@ -13,6 +13,7 @@
 		AA000004 /* MenuBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000013 /* MenuBarController.swift */; };
 		AA000005 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA000014 /* Assets.xcassets */; };
 		AA000006 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000015 /* main.swift */; };
+		AA000007 /* ScreenshotClipboardMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000018 /* ScreenshotClipboardMonitor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		AA000015 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		AA000016 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA000017 /* RecycleRobotCommandCenter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RecycleRobotCommandCenter.entitlements; sourceTree = "<group>"; };
+		AA000018 /* ScreenshotClipboardMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotClipboardMonitor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 				AA000013 /* MenuBarController.swift */,
 				AA000011 /* WindowManager.swift */,
 				AA000012 /* ProfileStore.swift */,
+				AA000018 /* ScreenshotClipboardMonitor.swift */,
 				AA000014 /* Assets.xcassets */,
 				AA000016 /* Info.plist */,
 				AA000017 /* RecycleRobotCommandCenter.entitlements */,
@@ -143,6 +146,7 @@
 				AA000002 /* WindowManager.swift in Sources */,
 				AA000003 /* ProfileStore.swift in Sources */,
 				AA000004 /* MenuBarController.swift in Sources */,
+				AA000007 /* ScreenshotClipboardMonitor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

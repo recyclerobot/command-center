@@ -1,15 +1,17 @@
 import Cocoa
+import ServiceManagement
 
 class MenuBarController {
     private let statusItem: NSStatusItem
     private let profileStore = ProfileStore.shared
     private let windowManager = WindowManager.shared
+    private let screenshotMonitor = ScreenshotClipboardMonitor.shared
 
     init() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
         if let button = statusItem.button {
-            button.image = NSImage(systemSymbolName: "square.grid.2x2", accessibilityDescription: "Command Center")
+            button.title = "🤖"
             button.toolTip = "recyclerobot command center"
         }
 
@@ -76,6 +78,39 @@ class MenuBarController {
                 menu.addItem(profileItem)
             }
         }
+
+        menu.addItem(NSMenuItem.separator())
+
+        // Settings submenu
+        let settingsItem = NSMenuItem(title: "Settings", action: nil, keyEquivalent: "")
+        let settingsMenu = NSMenu()
+
+        let launchAtLoginItem = NSMenuItem(title: "Launch at Login", action: #selector(toggleLaunchAtLogin(_:)), keyEquivalent: "")
+        launchAtLoginItem.target = self
+        launchAtLoginItem.state = SMAppService.mainApp.status == .enabled ? .on : .off
+        settingsMenu.addItem(launchAtLoginItem)
+
+        settingsMenu.addItem(NSMenuItem.separator())
+
+        let screenshotToggle = NSMenuItem(title: "Save Screenshots to Folder", action: #selector(toggleScreenshotSave(_:)), keyEquivalent: "")
+        screenshotToggle.target = self
+        screenshotToggle.state = screenshotMonitor.isEnabled ? .on : .off
+        settingsMenu.addItem(screenshotToggle)
+
+        let folderLabel: String
+        if let folder = screenshotMonitor.saveFolder {
+            let folderName = (folder as NSString).lastPathComponent
+            folderLabel = "Save Folder: \(folderName)"
+        } else {
+            folderLabel = "Choose Save Folder…"
+        }
+        let chooseFolderItem = NSMenuItem(title: folderLabel, action: #selector(chooseScreenshotFolder), keyEquivalent: "")
+        chooseFolderItem.target = self
+        chooseFolderItem.indentationLevel = 1
+        settingsMenu.addItem(chooseFolderItem)
+
+        settingsItem.submenu = settingsMenu
+        menu.addItem(settingsItem)
 
         menu.addItem(NSMenuItem.separator())
 
@@ -188,6 +223,62 @@ class MenuBarController {
             profileStore.delete(profileId: profileId)
             rebuildMenu()
         }
+    }
+
+    @objc private func toggleLaunchAtLogin(_ sender: NSMenuItem) {
+        do {
+            if SMAppService.mainApp.status == .enabled {
+                try SMAppService.mainApp.unregister()
+            } else {
+                try SMAppService.mainApp.register()
+            }
+        } catch {
+            showAlert(title: "Launch at Login", message: "Failed to update login item: \(error.localizedDescription)")
+        }
+        rebuildMenu()
+    }
+
+    @objc private func toggleScreenshotSave(_ sender: NSMenuItem) {
+        if !screenshotMonitor.isEnabled {
+            // Turning on — ensure a folder is selected first
+            if screenshotMonitor.saveFolder == nil {
+                if !pickScreenshotFolder() {
+                    return // user cancelled
+                }
+            }
+            screenshotMonitor.isEnabled = true
+        } else {
+            screenshotMonitor.isEnabled = false
+        }
+        rebuildMenu()
+    }
+
+    @objc private func chooseScreenshotFolder() {
+        _ = pickScreenshotFolder()
+        rebuildMenu()
+    }
+
+    private func pickScreenshotFolder() -> Bool {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = false
+        panel.canChooseDirectories = true
+        panel.canCreateDirectories = true
+        panel.allowsMultipleSelection = false
+        panel.prompt = "Select"
+        panel.message = "Choose a folder to save screenshots to:"
+
+        if let current = screenshotMonitor.saveFolder {
+            panel.directoryURL = URL(fileURLWithPath: current)
+        }
+
+        NSApp.activate(ignoringOtherApps: true)
+        let response = panel.runModal()
+
+        if response == .OK, let url = panel.url {
+            screenshotMonitor.saveFolder = url.path
+            return true
+        }
+        return false
     }
 
     @objc private func quit() {
