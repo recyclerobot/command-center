@@ -5,18 +5,21 @@ A macOS menu bar app for managing window layouts and saving clipboard screenshot
 ## Features
 
 ### Window Layout Profiles
+
 - **Save** the position and size of all open application windows as a named profile
 - **Restore** a saved profile to reposition windows (apps must be running)
 - **Rename** and **delete** saved profiles
 - Profiles are persisted to `~/Library/Application Support/RecycleRobotCommandCenter/profiles.json`
 
 ### Screenshot Clipboard Saver
+
 - Automatically saves images copied to the clipboard (e.g. via ⌘⇧4) to a local folder
 - Screenshots remain in your clipboard — they're duplicated, not moved
 - Choose any folder as the save destination
 - Files are saved as PNGs with timestamped filenames
 
 ### Settings
+
 - **Launch at Login** — start the app automatically when you log in
 - **Save Screenshots to Folder** — toggle clipboard screenshot saving on/off
 - **Choose Save Folder** — pick where screenshots are saved
