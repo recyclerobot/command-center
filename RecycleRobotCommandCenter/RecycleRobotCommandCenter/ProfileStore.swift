@@ -4,10 +4,34 @@ struct WindowSnapshot: Codable {
     let appName: String
     let bundleIdentifier: String?
     let windowTitle: String
+    let windowIndex: Int
     let x: Double
     let y: Double
     let width: Double
     let height: Double
+
+    init(appName: String, bundleIdentifier: String?, windowTitle: String, windowIndex: Int, x: Double, y: Double, width: Double, height: Double) {
+        self.appName = appName
+        self.bundleIdentifier = bundleIdentifier
+        self.windowTitle = windowTitle
+        self.windowIndex = windowIndex
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        appName = try container.decode(String.self, forKey: .appName)
+        bundleIdentifier = try container.decodeIfPresent(String.self, forKey: .bundleIdentifier)
+        windowTitle = try container.decode(String.self, forKey: .windowTitle)
+        windowIndex = try container.decodeIfPresent(Int.self, forKey: .windowIndex) ?? 0
+        x = try container.decode(Double.self, forKey: .x)
+        y = try container.decode(Double.self, forKey: .y)
+        width = try container.decode(Double.self, forKey: .width)
+        height = try container.decode(Double.self, forKey: .height)
+    }
 }
 
 struct WindowProfile: Codable, Identifiable {
@@ -53,6 +77,12 @@ class ProfileStore {
     func rename(profileId: String, newName: String) {
         guard let idx = profiles.firstIndex(where: { $0.id == profileId }) else { return }
         profiles[idx].name = newName
+        persist()
+    }
+
+    func update(profileId: String, windows: [WindowSnapshot]) {
+        guard let idx = profiles.firstIndex(where: { $0.id == profileId }) else { return }
+        profiles[idx].windows = windows
         persist()
     }
 

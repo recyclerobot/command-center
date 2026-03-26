@@ -62,6 +62,11 @@ class MenuBarController {
                 restoreAction.representedObject = profile.id
                 subMenu.addItem(restoreAction)
 
+                let overwriteAction = NSMenuItem(title: "Update with Current Layout", action: #selector(overwriteProfile(_:)), keyEquivalent: "")
+                overwriteAction.target = self
+                overwriteAction.representedObject = profile.id
+                subMenu.addItem(overwriteAction)
+
                 let renameAction = NSMenuItem(title: "Rename…", action: #selector(renameProfile(_:)), keyEquivalent: "")
                 renameAction.target = self
                 renameAction.representedObject = profile.id
@@ -176,6 +181,34 @@ class MenuBarController {
                 title: "Layout Restored",
                 message: "Restored \(result.restored) window(s). Skipped \(result.skipped) window(s) — their apps may not be running."
             )
+        }
+    }
+
+    @objc private func overwriteProfile(_ sender: NSMenuItem) {
+        guard let profileId = sender.representedObject as? String,
+              let profile = profileStore.profiles.first(where: { $0.id == profileId }) else { return }
+
+        if !checkAccessibility() { return }
+
+        let windows = windowManager.captureWindows()
+
+        if windows.isEmpty {
+            showAlert(title: "No Windows Found", message: "No application windows were detected.")
+            return
+        }
+
+        let alert = NSAlert()
+        alert.messageText = "Update Profile"
+        alert.informativeText = "Replace \"\(profile.name)\" with the current window layout (\(windows.count) windows)?"
+        alert.addButton(withTitle: "Update")
+        alert.addButton(withTitle: "Cancel")
+
+        NSApp.activate(ignoringOtherApps: true)
+        let response = alert.runModal()
+
+        if response == .alertFirstButtonReturn {
+            profileStore.update(profileId: profileId, windows: windows)
+            rebuildMenu()
         }
     }
 
