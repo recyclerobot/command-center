@@ -24,6 +24,8 @@
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>LSUIElement</key>
 	<true/>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Command Center uses System Events automation to reconnect your iPad Sidecar display before restoring saved window layouts.</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2026 recyclerobot. All rights reserved.</string>
 </dict>
