@@ -14,6 +14,8 @@
 		AA000005 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA000014 /* Assets.xcassets */; };
 		AA000006 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000015 /* main.swift */; };
 		AA000007 /* ScreenshotClipboardMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000018 /* ScreenshotClipboardMonitor.swift */; };
+		AA000008 /* DisplayLayoutSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000019 /* DisplayLayoutSupport.swift */; };
+		AA00000A /* SidecarAutomationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001A /* SidecarAutomationService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,8 @@
 		AA000016 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA000017 /* RecycleRobotCommandCenter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RecycleRobotCommandCenter.entitlements; sourceTree = "<group>"; };
 		AA000018 /* ScreenshotClipboardMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotClipboardMonitor.swift; sourceTree = "<group>"; };
+		AA000019 /* DisplayLayoutSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayLayoutSupport.swift; sourceTree = "<group>"; };
+		AA00001A /* SidecarAutomationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidecarAutomationService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +61,8 @@
 				AA000011 /* WindowManager.swift */,
 				AA000012 /* ProfileStore.swift */,
 				AA000018 /* ScreenshotClipboardMonitor.swift */,
+				AA000019 /* DisplayLayoutSupport.swift */,
+				AA00001A /* SidecarAutomationService.swift */,
 				AA000014 /* Assets.xcassets */,
 				AA000016 /* Info.plist */,
 				AA000017 /* RecycleRobotCommandCenter.entitlements */,
@@ -147,6 +153,8 @@
 				AA000003 /* ProfileStore.swift in Sources */,
 				AA000004 /* MenuBarController.swift in Sources */,
 				AA000007 /* ScreenshotClipboardMonitor.swift in Sources */,
+				AA000008 /* DisplayLayoutSupport.swift in Sources */,
+				AA00000A /* SidecarAutomationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
